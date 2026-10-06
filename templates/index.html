@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shareline — Article Share Predictor</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <div class="brand">Share<b>line</b></div>
+      <div class="tag">flask · gradient boosting · v0.1</div>
+    </div>
+  </header>
+
+  <h1>Predict how many shares an article will get</h1>
+  <p class="sub">Enter the article's key attributes below. Every other feature the model uses is filled in with its typical (median) value from the training data.</p>
+
+  <div class="card">
+    <form action="/predict" method="POST">
+
+      <div class="grid">
+        <div class="field">
+          <label for="data_channel">Data channel</label>
+          <select id="data_channel" name="data_channel" required>
+            <option value="tech">Tech</option>
+            <option value="world">World</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="bus">Business</option>
+            <option value="lifestyle">Lifestyle</option>
+            <option value="socmed">Social Media</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="weekday">Publish weekday</label>
+          <select id="weekday" name="weekday" required>
+            <option value="monday">Monday</option>
+            <option value="tuesday">Tuesday</option>
+            <option value="wednesday">Wednesday</option>
+            <option value="thursday">Thursday</option>
+            <option value="friday">Friday</option>
+            <option value="saturday">Saturday</option>
+            <option value="sunday">Sunday</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row3">
+        <div class="field">
+          <label for="n_tokens_title">Title word count</label>
+          <input type="number" step="1" id="n_tokens_title" name="n_tokens_title" value="10" required>
+        </div>
+        <div class="field">
+          <label for="n_tokens_content">Content word count</label>
+          <input type="number" step="1" id="n_tokens_content" name="n_tokens_content" value="600" required>
+        </div>
+        <div class="field">
+          <label for="num_imgs">Number of images</label>
+          <input type="number" step="1" id="num_imgs" name="num_imgs" value="3" required>
+        </div>
+      </div>
+
+      <div class="row3">
+        <div class="field">
+          <label for="num_hrefs">Number of links</label>
+          <input type="number" step="1" id="num_hrefs" name="num_hrefs" value="8" required>
+        </div>
+        <div class="field">
+          <label for="kw_avg_avg">Avg. keyword shares (kw_avg_avg)</label>
+          <input type="number" step="any" id="kw_avg_avg" name="kw_avg_avg" value="3120" required>
+        </div>
+        <div class="field">
+          <label for="global_subjectivity">Global subjectivity (0–1)</label>
+          <input type="number" step="0.01" min="0" max="1" id="global_subjectivity" name="global_subjectivity" value="0.44" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn">Predict shares →</button>
+
+      {% if prediction_text %}
+        <div class="result {% if prediction_text.startswith('Error') %}error{% endif %}">
+          <span class="result-label">
+            {% if prediction_text.startswith('Error') %}status{% else %}estimated shares{% endif %}
+          </span>
+          <span class="result-value">
+            {{ prediction_text.split(':')[-1].strip() if not prediction_text.startswith('Error') else prediction_text }}
+          </span>
+        </div>
+      {% endif %}
+
+    </form>
+  </div>
+
+  <footer>
+    <span>POST /predict <span class="badge">{% if prediction_text %}200 OK{% endif %}</span></span>
+    <span>model: model.pkl · features: 59 (8 user-set, 51 defaulted)</span>
+  </footer>
+</div>
+</body>
+</html>
