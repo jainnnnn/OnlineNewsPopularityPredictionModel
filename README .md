@@ -154,5 +154,9 @@ python app.py
 Then open `http://127.0.0.1:5000` in your browser.
 ##  Screenshot
 
-<img width="1897" height="973" alt="Screenshot 2026-10-01 133147" src="https://github.com/user-attachments/assets/9a6722d3-408a-4f43-9fc2-93ef25419b87" />
+
+<img width="1911" height="862" alt="Screenshot 2026-10-07 202738" src="https://github.com/user-attachments/assets/9ba9c8d7-549b-4faa-8677-4e724613137d" />
+
+<img width="1897" height="973" alt="Screenshot 2026-10-01 133147" src="https://github.com/user-attachments/assets/7ea845da-280d-4017-ac0f-dee6ddfbd75a" />
+
 
